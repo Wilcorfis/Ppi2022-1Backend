@@ -1,0 +1,6 @@
+PORT=6062
+HOST_DB=bd7wi6ou1e3lcc0oye2z-mysql.services.clever-cloud.com
+USER_DB=uoclq3ko8skyuvmy
+DATABASE_NAME=bd7wi6ou1e3lcc0oye2z
+PORT_DB=3306
+PASSWORD_DB=8zUi8ZfSO8Mf8k5QpCnN
