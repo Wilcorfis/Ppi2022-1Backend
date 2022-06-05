@@ -47,11 +47,12 @@ router.post('/receta_ingrediente', async (req, res) => {
       descripcion,
       fk_id_ingrediente,
       fk_id_receta,
-      cantidad
+      cantidad,
+      unidad
     } = req.body;
     await connection.query(
-      `insert into receta_ingrediente(descripcion,fk_id_ingrediente,fk_id_receta,cantidad)
-      values ('${descripcion}','${fk_id_ingrediente}','${fk_id_receta}','${cantidad}')`
+      `insert into receta_ingrediente(descripcion,fk_id_ingrediente,fk_id_receta,cantidad,unidad)
+      values ('${descripcion}','${fk_id_ingrediente}','${fk_id_receta}','${cantidad}','${unidad}')`
     )
     const [rows] = await connection.query(`select * from receta_ingrediente where id_receta_ingrediente=(select max(id_receta_ingrediente) from receta_ingrediente);`);
     return res.status(200).json(rows)
