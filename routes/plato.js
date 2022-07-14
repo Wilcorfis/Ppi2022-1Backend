@@ -49,9 +49,10 @@ router.post('/plato', async (req, res) => {
     const {
       nombre,
       fk_id_categoria,
-      costo,
-      activo
+      costo
+  
     } = req.body;
+    const activo="s"
     await connection.query(
       `insert into plato(nombre,fk_id_categoria,costo,activo)
       values ('${nombre}','${fk_id_categoria}','${costo}','${activo}')`

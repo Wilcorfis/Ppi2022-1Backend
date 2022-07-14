@@ -64,9 +64,10 @@ router.post('/empleado', async (req, res) => {
       fecha_nacimiento,
       genero,
       municipio,
-      horario,
-      activo
+      horario
+
     } = req.body;
+    const activo="s"
     await connection.query(
       `insert into empleado(fk_id_tipo_empleado,identificacion,
         primer_nombre,segundo_nombre,

@@ -6,7 +6,7 @@ const router = Router();
 router.get('/pedidos', async (req, res) => {
 
   try {
-    const [rows] = await connection.query('select * from pedido;');
+    const [rows] = await connection.query('select id_pedido,fk_id_cliente,fk_id_empleado,m.codigo,fecha,estado from pedido inner join mesa m on m.id_mesa=fk_id_mesa;');
     return res.status(200).json(rows)
 
   } catch (error) {
@@ -32,7 +32,13 @@ router.get('/pedido/:id', async (req, res) => {
 
   try {
     const { id } = req.params
-    const [rows] = await connection.query(`select * from pedido where id_pedido=${id};`);
+    const [rows] = await connection.query(`select estado,
+    fecha,
+    fk_id_cliente,
+    fk_id_empleado,
+    fk_id_mesa,
+    m.codigo,
+    id_pedido from pedido inner join mesa m on m.id_mesa=fk_id_mesa where id_pedido=${id};`);
     return res.status(200).json(rows)
 
   } catch (error) {
@@ -55,7 +61,17 @@ router.post('/pedido', async (req, res) => {
       `insert into pedido(fk_id_cliente,fk_id_empleado,fk_id_mesa,fecha,estado)
       values ('${fk_id_cliente}','${fk_id_empleado}','${fk_id_mesa}',STR_TO_DATE('${fecha}','%d/%m/%Y'),'${estado}')`
     )
-    const [rows] = await connection.query(`select * from pedido where id_pedido=(select max(id_pedido) from pedido) and fk_id_cliente='${fk_id_cliente}';`);
+    const [rows] = await connection.query(`select 
+    
+    id_pedido,
+    fk_id_cliente,
+    fk_id_empleado,
+    m.codigo,
+    fecha,
+    estado
+    
+    
+    from pedido inner join mesa m on m.id_mesa=fk_id_mesa where id_pedido=(select max(id_pedido) from pedido) and fk_id_cliente='${fk_id_cliente}';`);
     return res.status(200).json(rows)
 
   } catch (error) {

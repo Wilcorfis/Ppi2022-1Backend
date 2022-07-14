@@ -41,16 +41,29 @@ router.get('/mesa/:id', async (req, res) => {
   }
 
 })
+router.get('/meso/:id', async (req, res) => {
+
+  try {
+    const { id } = req.params
+    const [rows] = await connection.query(`select codigo from mesa where id_mesa=${id};`);
+    return res.status(200).json(rows)
+
+  } catch (error) {
+    res.status(500).json({ error: error })
+
+  }
+
+})
 router.post('/mesa', async (req, res) => {
   try {
     const {
       cantidad_personas,
-      disponible
-
+      codigo
     } = req.body;
+    const disponible="s"
     await connection.query(
-      `insert into mesa(cantidad_personas,disponible)
-      values ('${cantidad_personas}','${disponible}')`
+      `insert into mesa(cantidad_personas,disponible,codigo)
+      values ('${cantidad_personas}','${disponible}','${codigo}')`
     )
     const [rows] = await connection.query(`select * from mesa where id_mesa=(select max(id_mesa) from mesa);`);
     return res.status(200).json(rows)
@@ -104,6 +117,23 @@ router.patch('/mesaestadon/:id', async (req, res) => {
   }
 });
 router.patch('/mesaestados/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const disponible="s"
+
+    await connection
+      .query(`update mesa set 
+        disponible='${disponible}'
+        where codigo = '${id}' `);
+
+    return res.status(200).json("ok")
+
+  } catch (error) {
+    res.status(500).json({ error: error })
+
+  }
+});
+router.patch('/mesaestados2/:id', async (req, res) => {
   try {
     const { id } = req.params
     const disponible="s"

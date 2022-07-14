@@ -58,9 +58,10 @@ router.post('/cliente', async (req, res) => {
       segundo_apellido,
       fk_id_genero,
       fk_id_municipio,
-      activo,
       correo
     } = req.body;
+    const activo="s"
+
     await connection.query(
       `insert into cliente(identificacion,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,fk_id_genero,fk_id_municipio,activo,correo)
       values ('${identificacion}','${primer_nombre}','${segundo_nombre}','${primer_apellido}','${segundo_apellido}',

@@ -44,12 +44,11 @@ router.get('/ingrediente/:id', async (req, res) => {
 router.post('/ingrediente', async (req, res) => {
   try {
     const {
-      nombre,
-      activo
+      nombre
     } = req.body;
     await connection.query(
-      `insert into ingrediente(nombre,activo)
-      values ('${nombre}','${activo}')`
+      `insert into ingrediente(nombre)
+      values ('${nombre}')`
     )
     const [rows] = await connection.query(`select * from ingrediente where nombre='${nombre}';`);
     return res.status(200).json(rows)
