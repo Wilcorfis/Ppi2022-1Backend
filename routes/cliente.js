@@ -10,8 +10,8 @@ router.get('/clientes', async (req, res) => {
     select id_cliente,identificacion,primer_nombre,
 segundo_nombre,primer_apellido,segundo_apellido,
 fk_id_genero,fk_id_municipio,
-activo,correo,M.fk_id_departamento from cliente INNER JOIN municipio M
-on fk_id_municipio=M.id_municipio;
+activo,correo,d.nombre from cliente INNER JOIN municipio M
+on fk_id_municipio=M.id_municipio inner join departamento d on M.fk_id_departamento=d.id_departamento;
     `);
 
     return res.status(200).json(rows)
@@ -130,3 +130,4 @@ router.delete('/cliente/:id', async (req, res) => {
 })
 
 export default router;
+
