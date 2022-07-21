@@ -1,3 +1,11 @@
+/*llenar el select de formulario llamando peticion get con
+select id_cliente,identificacion,primer_nombre,
+segundo_nombre,primer_apellido,segundo_apellido,
+fk_id_genero,fk_id_municipio,
+activo,correo,M.fk_id_departamento from cliente INNER JOIN municipio M
+on fk_id_municipio=M.id_municipio 
+
+*/
 import { Router } from "express";
 
 import connection from '../db/db.js';

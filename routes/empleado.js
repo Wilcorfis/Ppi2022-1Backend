@@ -1,3 +1,10 @@
+/*llenar el select de formulario llamando peticion get con
+    select id_empleado,fk_id_tipo_empleado,identificacion,primer_nombre,
+segundo_nombre,primer_apellido,segundo_apellido,telefono,
+celular,clave,direccion,correo,fecha_nacimiento,fk_id_genero,fk_id_municipio,
+fk_id_horario,activo,M.fk_id_departamento from empleado INNER JOIN municipio M
+on fk_id_municipio=M.id_municipio 
+*/ 
 import { Router } from "express";
 
 import connection from '../db/db.js';
@@ -10,8 +17,8 @@ router.get('/empleados', async (req, res) => {
     select id_empleado,fk_id_tipo_empleado,identificacion,primer_nombre,
 segundo_nombre,primer_apellido,segundo_apellido,telefono,
 celular,clave,direccion,correo,fecha_nacimiento,fk_id_genero,fk_id_municipio,
-fk_id_horario,activo,M.fk_id_departamento from empleado INNER JOIN municipio M
-on fk_id_municipio=M.id_municipio;
+fk_id_horario,activo,d.nombre from empleado INNER JOIN municipio M
+on fk_id_municipio=M.id_municipio inner join departamento d on M.fk_id_departamento=d.id_departamento;
     `);
     return res.status(200).json(rows)
 
