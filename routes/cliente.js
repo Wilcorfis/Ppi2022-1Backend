@@ -17,9 +17,10 @@ router.get('/clientes', async (req, res) => {
     const [rows] = await connection.query(`
     select id_cliente,identificacion,primer_nombre,
 segundo_nombre,primer_apellido,segundo_apellido,
-fk_id_genero,fk_id_municipio,
-activo,correo,d.nombre from cliente INNER JOIN municipio M
-on fk_id_municipio=M.id_municipio inner join departamento d on M.fk_id_departamento=d.id_departamento;
+g.nombre as "fk_id_genero",M.nombre as "fk_id_municipio",
+activo,correo,d.nombre as "fk_id_departamento"  from cliente INNER JOIN municipio M
+on fk_id_municipio=M.id_municipio inner join departamento d on M.fk_id_departamento=d.id_departamento
+inner join genero g on fk_id_genero=g.id_genero ;
     `);
 
     return res.status(200).json(rows)
