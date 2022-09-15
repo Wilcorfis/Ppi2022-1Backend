@@ -33,7 +33,7 @@ router.get('/empleados/:id', async (req, res) => {
 
   try {
     const { id } = req.params
-    const [rows] = await connection.query(`select * from empleado where id_empleado=${id}`);
+    const [rows] = await connection.query(`select * from empleado where identificacion=${id}`);
     return res.status(200).json(rows)
 
   } catch (error) {
