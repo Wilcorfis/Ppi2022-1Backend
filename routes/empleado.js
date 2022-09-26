@@ -195,6 +195,21 @@ router.delete('/empleado/:id', async (req, res) => {
   }
 
 })
+router.get('/meseros/:id', async (req, res) => {
+
+  try {
+    const { id } = req.params
+    const [rows] = await connection.query(`select fecha,estado,cliente.primer_nombre as "nombrecliente",cliente.primer_apellido as "apellidocliente",empleado.primer_nombre as "nombremesero",
+    empleado.primer_apellido as "apellidomesero",mesa.codigo as"codigomesa" from pedido inner join cliente on fk_id_cliente=id_cliente
+    inner join empleado on fk_id_empleado=id_empleado inner join mesa on fk_id_mesa=id_mesa where empleado.identificacion=${id}`);
+    return res.status(200).json(rows)
+
+  } catch (error) {
+    res.status(500).json({ error: error })
+
+  }
+
+})
 
 
 export default router;
