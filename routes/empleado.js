@@ -29,6 +29,25 @@ inner join tipo_empleado t on t.id_tipo_empleado=fk_id_tipo_empleado inner join 
   }
 
 })
+router.get('/empleadosw', async (req, res) => {
+
+  try {
+    const [rows] = await connection.query(`
+    select id_empleado,t.nombre as "tipo_empleado",identificacion,primer_nombre,
+segundo_nombre,primer_apellido,segundo_apellido,telefono,
+celular,clave,direccion,correo,fecha_nacimiento,g.nombre as "fk_id_genero",M.nombre as "fk_id_municipio",
+fk_id_horario,activo,d.nombre as "fk_id_departamento" from empleado INNER JOIN municipio M
+on fk_id_municipio=M.id_municipio inner join departamento d on M.fk_id_departamento=d.id_departamento
+inner join tipo_empleado t on t.id_tipo_empleado=fk_id_tipo_empleado inner join genero g on g.id_genero=fk_id_genero where t.nombre='Mesero';
+    `);
+    return res.status(200).json(rows)
+
+  } catch (error) {
+    res.status(500).json({ error: error })
+
+  }
+
+})
 router.get('/empleados/:id', async (req, res) => {
 
   try {
