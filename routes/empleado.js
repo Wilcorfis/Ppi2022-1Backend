@@ -38,7 +38,7 @@ segundo_nombre,primer_apellido,segundo_apellido,telefono,
 celular,clave,direccion,correo,fecha_nacimiento,g.nombre as "fk_id_genero",M.nombre as "fk_id_municipio",
 fk_id_horario,activo,d.nombre as "fk_id_departamento" from empleado INNER JOIN municipio M
 on fk_id_municipio=M.id_municipio inner join departamento d on M.fk_id_departamento=d.id_departamento
-inner join tipo_empleado t on t.id_tipo_empleado=fk_id_tipo_empleado inner join genero g on g.id_genero=fk_id_genero where t.nombre='Mesero';
+inner join tipo_empleado t on t.id_tipo_empleado=fk_id_tipo_empleado inner join genero g on g.id_genero=fk_id_genero where t.nombre='Mesero' and t.nombre='Administrador';
     `);
     return res.status(200).json(rows)
 
