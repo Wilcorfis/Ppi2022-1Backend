@@ -40,24 +40,25 @@ router.get('/detalle_pedidopago', async (req, res) => {
     const { id } = req.params
     const [rows] = await connection.query(`
     
-select fk_id_pedido,fk_id_mesa,group_concat(fk_id_plato SEPARATOR ' , ') as cantidad,group_concat(suma SEPARATOR ' , ')as total from(
-select t.fk_id_pedido,t.fk_id_mesa,t.fk_id_plato, group_concat(sum_value) as suma
-  from (select fk_id_pedido,p.nombre,pe.fk_id_mesa ,fk_id_plato,sum(p.costo) as sum_value
-          from detalle_pedido inner join plato p on p.id_plato=fk_id_plato
+   
+
+    select w.fk_id_pedido,w.codigo,w.suma,k.cantidad  from(
+    
+    select t.fk_id_pedido,codigo, group_concat(sum_value) as suma
+      from (select fk_id_pedido,p.nombre,m.codigo ,sum(p.costo) as sum_value
+              from detalle_pedido inner join plato p on p.id_plato=fk_id_plato
+             inner join pedido pe on pe.id_pedido=fk_id_pedido inner join mesa m on pe.fk_id_mesa=m.id_mesa where p.activo='s' and pe.estado='En espera'
+             group by fk_id_pedido) t
+     group by t.fk_id_pedido )w inner join
+    
+    
+    ( SELECT A.fk_id_pedido,GROUP_CONCAT(A.count SEPARATOR ' , ') as cantidad
+    FROM
+       (SELECT fk_id_pedido,p.nombre, CONCAT(p.nombre,'(',count(p.nombre),')') AS count   
+        FROM detalle_pedido inner join plato p on p.id_plato=fk_id_plato
          inner join pedido pe on pe.id_pedido=fk_id_pedido where p.activo='s' and pe.estado='En espera'
-         group by fk_id_pedido) t
- group by t.fk_id_pedido 
-
-union all 
-
-SELECT A.fk_id_pedido,A.fk_id_mesa,GROUP_CONCAT(A.count SEPARATOR ' , ') as cantidad,A.fk_id_plato
-FROM
-   (SELECT fk_id_pedido,p.nombre,pe.fk_id_mesa,fk_id_plato, CONCAT(p.nombre,'(',count(p.nombre),')') AS count   
-    FROM detalle_pedido inner join plato p on p.id_plato=fk_id_plato
-     inner join pedido pe on pe.id_pedido=fk_id_pedido where p.activo='s' and pe.estado='En espera'
-    GROUP BY fk_id_pedido, p.nombre) A
-GROUP BY A.fk_id_pedido 
-)detalle_pedido;
+        GROUP BY fk_id_pedido, p.nombre) A
+    GROUP BY A.fk_id_pedido)k on k.fk_id_pedido=w.fk_id_pedido;
  
     
     `);
