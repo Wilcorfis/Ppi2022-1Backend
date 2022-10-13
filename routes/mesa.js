@@ -89,9 +89,9 @@ router.patch('/mesa/:id', async (req, res) => {
     })
     const result = await connection
       .query(`update mesa set ${fieldsQuery.join()}
-     where id_mesa = ${id} `);
+     where codigo = ${id} `);
 
-     const [rows] = await connection.query(`select * from mesa where id_mesa='${id}';`);
+     const [rows] = await connection.query(`select * from mesa where codigo='${id}';`);
      return res.status(200).json(rows)
 
   } catch (error) {
@@ -107,7 +107,7 @@ router.patch('/mesaestadon/:id', async (req, res) => {
     await connection
       .query(`update mesa set 
         disponible='${disponible}'
-        where id_mesa = '${id}' `);
+        where codigo = '${id}' `);
 
     return res.status(200).json("ok")
 
@@ -141,7 +141,7 @@ router.patch('/mesaestados2/:id', async (req, res) => {
     await connection
       .query(`update mesa set 
         disponible='${disponible}'
-        where id_mesa = '${id}' `);
+        where codigo = '${id}' `);
 
     return res.status(200).json("ok")
 
@@ -154,7 +154,7 @@ router.patch('/mesaestados2/:id', async (req, res) => {
 router.delete('/mesa/:id',async(req,res)=>{
   try {
     const {id}=req.params;
-    await connection.query(`delete from mesa where id_mesa = ${id};`);
+    await connection.query(`delete from mesa where codigo = ${id};`);
     return res.status(200).json('Registro eliminado correctamente')
 
   } catch (error) {
