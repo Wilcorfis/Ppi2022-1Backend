@@ -107,7 +107,7 @@ router.patch('/mesaestadon/:id', async (req, res) => {
     await connection
       .query(`update mesa set 
         disponible='${disponible}'
-        where codigo = '${id}' `);
+        where id_mesa = '${id}' `);
 
     return res.status(200).json("ok")
 
