@@ -4,7 +4,7 @@ segundo_nombre,primer_apellido,segundo_apellido,telefono,
 celular,clave,direccion,correo,fecha_nacimiento,fk_id_genero,fk_id_municipio,
 fk_id_horario,activo,M.fk_id_departamento from empleado INNER JOIN municipio M
 on fk_id_municipio=M.id_municipio 
-*/ 
+*/
 import { Router } from "express";
 
 import connection from '../db/db.js';
@@ -94,7 +94,7 @@ router.post('/empleado', async (req, res) => {
       horario
 
     } = req.body;
-    const activo="s"
+    const activo = "s"
     await connection.query(
       `insert into empleado(fk_id_tipo_empleado,identificacion,
         primer_nombre,segundo_nombre,
@@ -126,13 +126,13 @@ on fk_id_municipio=M.id_municipio where identificacion=${identificacion};
 router.post('/login', async (req, res) => {
   try {
     const {
-      identificacion,     
+      identificacion,
       clave
     } = req.body;
-    const rows =await connection.query(
+    const rows = await connection.query(
       `select identificacion,t.nombre as "tipo_empleado",activo from empleado inner join tipo_empleado t on t.id_tipo_empleado=fk_id_tipo_empleado
       where identificacion=${identificacion} and clave=${clave}
-      `    
+      `
     )
     return res.status(200).json(rows)
 
@@ -142,6 +142,24 @@ router.post('/login', async (req, res) => {
   }
 
 })
+
+router.patch('/empleadonuevaclave/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+
+
+    const result = await connection
+      .query(`update empleado set    
+        clave='456'       
+        where identificacion = '${id}' `);
+
+    return res.status(200).json("ok")
+
+  } catch (error) {
+    res.status(500).json({ error: error })
+
+  }
+});
 //1 48 video 6 abril parte 2
 router.patch('/empleado/:id', async (req, res) => {
   try {
