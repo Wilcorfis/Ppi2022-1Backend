@@ -95,7 +95,7 @@ router.patch('/empleadoclave/:id', async (req, res) => {
     const result = await connection
       .query(`update empleado set    
         clave='456'       
-        where identificacion = '${id}' `);
+        where correo = '${id}' `);
 
     return res.status(200).json("ok")
 
